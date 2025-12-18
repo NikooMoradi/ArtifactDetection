@@ -74,17 +74,38 @@ class Preprocess():
 
         print(f'data saved for {self.raw_file}')
         
-        
+# TO DO: Consider other brainstates     
+# def reformat_br_file(unformatted_folder, unformatted_file, save_folder, save_as):
+#     file_path = os.path.join(unformatted_folder, unformatted_file)
+#     file = pd.read_excel(file_path)
+#     x = [0] 
+#     br_values = x + file[0].to_list()
+#     start_epoch = np.arange(0, 86400, 5)
+#     end_epoch = np.arange(5, 86405, 5 )
+#     br_dict = {'brainstate': br_values, 'start_epoch': start_epoch, 'end_epoch': end_epoch}
+#     br_df = pd.DataFrame(data = br_dict)
+#     save_path = os.path.join(save_folder, save_as)
+#     br_df.to_pickle(f'{save_path}.pkl')
+#     print('brainstate file saved')
+#     return br_df
+
 def reformat_br_file(unformatted_folder, unformatted_file, save_folder, save_as):
     file_path = os.path.join(unformatted_folder, unformatted_file)
-    file = pd.read_excel(file_path)
-    x = [0] 
-    br_values = x + file[0].to_list()
-    start_epoch = np.arange(0, 86400, 5)
-    end_epoch = np.arange(5, 86405, 5 )
-    br_dict = {'brainstate': br_values, 'start_epoch': start_epoch, 'end_epoch': end_epoch}
-    br_df = pd.DataFrame(data = br_dict)
+    file = pd.read_excel(file_path, header = None)
+
+    br_values = file.iloc[:, 0].astype(int).tolist()
+
+    n_epochs = len(br_values)
+    start_epoch = np.arange(0, 5 * n_epochs, 5)
+    end_epoch = start_epoch + 5
+    br_dict = {
+        'brainstate': br_values,
+        'start_epoch': start_epoch,
+        'end_epoch': end_epoch
+    }
+    br_df = pd.DataFrame(data=br_dict)
     save_path = os.path.join(save_folder, save_as)
     br_df.to_pickle(f'{save_path}.pkl')
     print('brainstate file saved')
+    
     return br_df

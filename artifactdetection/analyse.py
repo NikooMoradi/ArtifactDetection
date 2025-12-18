@@ -14,8 +14,8 @@ class Analysis:
         self.noise_power_df = pd.DataFrame()
     
     def read_files(self, animal):
-        power_file = pd.read_csv(f'{self.directory_path}{animal}_power.csv')
-        slope_file = pd.read_csv(f'{self.directory_path}{animal}_slope.csv')
+        power_file = pd.read_pickle(f'{self.directory_path}{animal}_power.pkl')
+        slope_file = pd.read_pickle(f'{self.directory_path}{animal}_slope.pkl')
         return power_file, slope_file
     
     def filter_data(self, slope_file, power_file, threshold = None):
@@ -51,9 +51,9 @@ class Analysis:
         if save:
             if save_path is None:
                 raise ValueError("save_path must be provided if save is True")
-            clean_power.to_csv(os.path.join(save_path, f'{animal}_clean_power.csv'))
-            noise_power.to_csv(os.path.join(save_path, f'{animal}_noise_power.csv'))
-    
+            clean_power.to_pickle(os.path.join(save_path, f'{animal}_clean_power.pkl'))
+            noise_power.to_pickle(os.path.join(save_path, f'{animal}_noise_power.pkl'))
+
         return clean_power, noise_power, analytics_df
     
     def analyze(self):

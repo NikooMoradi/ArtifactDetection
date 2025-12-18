@@ -17,8 +17,8 @@ def two_files(load_files, start_times_dict, end_times_dict, animal, chan_idx, nu
     power, slope = process.process_single_channel(chan_idx = chan_idx, animal_id = animal, br_state = np.concatenate([br_1['brainstate'], br_2['brainstate']]))
     power_animal_df = pd.concat(power)
     slope_animal_df = pd.concat(slope)
-    power_animal_df.to_csv(save_folder + f'{animal}_power.csv')
-    slope_animal_df.to_csv(save_folder + f'{animal}_slope.csv')
+    power_animal_df.to_pickle(save_folder + f'{animal}_power.pkl')
+    slope_animal_df.to_pickle(save_folder + f'{animal}_slope.pkl')
     
 def one_file(load_files, start_times_dict, end_times_dict, animal, chan_idx, num_epochs, save_folder):
     data, br = load_files.load_one_analysis_file(start_times_dict = start_times_dict,
@@ -29,6 +29,6 @@ def one_file(load_files, start_times_dict, end_times_dict, animal, chan_idx, num
     power, slope = process.process_single_channel(chan_idx = chan_idx, animal_id = animal, br_state = br['brainstate'])
     power_animal_df = pd.concat(power)
     slope_animal_df = pd.concat(slope)
-    power_animal_df.to_csv(save_folder + f'{animal}_power.csv')
-    slope_animal_df.to_csv(save_folder + f'{animal}_slope.csv')
+    power_animal_df.to_pickle(save_folder + f'{animal}_power.pkl')
+    slope_animal_df.to_pickle(save_folder + f'{animal}_slope.pkl')
     

@@ -50,10 +50,26 @@ class LoadFiles():
         return recording_1, recording_2, brain_state_1, brain_state_2
     
     def load_one_analysis_file(self, start_times_dict, end_times_dict):
+
         animal_recording = [filename for filename in os.listdir(self.directory_path) if filename.startswith(self.animal_id) and filename.endswith('.npy')]
         recording = np.load(os.path.join(self.directory_path, animal_recording[0])) 
-        brain_file_1 = [filename for filename in os.listdir(self.directory_path) if filename == self.brain_1]
-        brain_state_1 = pd.read_pickle(os.path.join(self.directory_path, brain_file_1[0]))
+        
+        br_path = os.path.join(self.directory_path, f"{self.animal_id}_BL2.pkl")
+        if not os.path.exists(br_path):
+            br_path = os.path.join(self.directory_path, f"{self.animal_id}_BL1.pkl")
+        brain_state_1 = pd.read_pickle(br_path)
+
+
+        # brain_file_1 = [filename for filename in os.listdir(self.directory_path) if filename == self.brain_1]
+        # brain_file_1 = [filename for filename in os.listdir(self.directory_path) if filename == self.brain_2]
+
+        # print(self.brain_1)
+        # print(self.brain_2)
+        # print(f"brain_file_1: {brain_file_1}")
+        # print(f"Loading brain state file from: {os.path.join(self.directory_path, brain_file_1[0])}")
+
+
+        # brain_state_1 = pd.read_pickle(os.path.join(self.directory_path, brain_file_1[0]))
         
         start_time_1 = start_times_dict[self.start_dict_1]
         end_time_1 = end_times_dict[self.end_dict_1]
