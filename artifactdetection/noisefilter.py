@@ -50,8 +50,10 @@ class NoiseFilter:
         
         
         #Select all, emg, or eeg channel indices to apply bandpass filter                                    
-        selected_channel = self.unfiltered_data[self.chan_idx, :]     
-        bandpass_filtered_data=butter_bandpass(data=selected_channel) 
+        selected_channels = self.unfiltered_data[self.chan_idx, :].astype(np.float64)   
+        selected_channels /= 32768.0 
+        
+        bandpass_filtered_data=butter_bandpass(data=selected_channels) 
                         
         return bandpass_filtered_data  
         
